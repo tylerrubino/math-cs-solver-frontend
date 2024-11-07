@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# Math and CS Solver Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend of a responsive, modern calculator web app built with React. It features a sidebar for selecting different types of calculators, such as addition, subtraction, multiplication, division, factorial, Fibonacci, binomial coefficient, exponent, and Euler's exponent. Each calculator provides an interactive interface with descriptions to guide users.
 
-## Available Scripts
+The frontend interacts with a seperate backend API (`math-cs-solver-api`) to perform calculations.
 
-In the project directory, you can run:
+![UI Screenshot](public/ui-screenshot.png)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Calculator Types**: Choose from various calculators (addition, subtraction, factorial, fibonacci, and more) with individual parameter inputs.
+- **Dynamic Inputs**: Input fields adapt based on parameter inputs.
+- **Tooltip Descriptions**: Hover over the "i" icon for information about each calculator's functionality.
+- **Modern UI**: A polished sidebar with icons, smooth transitions, and responsive design.
+- **Backend API Integration**: Fetches calculation results from the `math-cs-solver-api`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- **Frontend**: React, CSS, `react-icons`
+- **Backend API (Seperate Repository)**: [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api) (Node.js, Express, Math.js)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+- Node.js (>=14.x)
+- npm (or yarn)
+- Access to the [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the Repository**:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/tylerrubino/math-cs-solver-frontend
+cd math-cs-solver-frontend
+```
 
-### `npm run eject`
+2. **Install Dependencies**:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Setup the Backend API**:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Follow the instructions in the [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api) repository to setup and run the backend server on `http:localhost:5000`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Running the Frontend
 
-## Learn More
+1. **Start the React App**:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The frontend should be runnin on `http://localhost:3000`.
 
-### Code Splitting
+2. **Access the App**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Open your browser and go to `http://localhost:3000`.
 
-### Analyzing the Bundle Size
+## Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Make sure the frontend is configured to interact with the backend API at `http://localhost:5000` (or your backend's deployed URL if hosted remotely). You may need to modify the API base URL in your frontend code if your backend runs on a different address.
 
-### Making a Progressive Web App
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Select a calculator from the sidebar.
+2. Enter the required input values.
+3. Click "Calculate" button to sent input values to the backend API and display the result.
+4. Hover over the "i" icon next to each calculator title for more information.
 
-### Advanced Configuration
+### Example Calculation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+To perform an addition calculation:
 
-### Deployment
+1. Open the app and select "Addition" from the sidebar.
+2. Enter values for `a` and `b`.
+3. Click "Calculate" to send a request to the [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api) and see the result.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## API Integration
 
-### `npm run build` fails to minify
+This frontend makes use of the [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api) repository as the backend. The API endpoints are accessed by making HTTP GET request with appropriate query parameters for each calculation type. Here's the expected configuration:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Base URL**: `http://localhost:5000` (or your deployed API URL)
+
+Each calculator type maps to an endpoint in the API. For example:
+
+- **Addition**: `/api/add?a=value&b=value2`
+- **Subtraction**: `/api/subtract?a=value&b=value2`
+- **Factorial**: `/api/factorial?n=value`
+- **Fibonacci**: `/api/fibonacci?n=value`
+- (and so on...)
+
+For more information on available endpoints, refer to the [math-cs-solver-api](https://github.com/tylerrubino/math-cs-solver-api) documentation.
+
+## Contributing
+
+Contributions are welcome! If you’d like to improve the UI, add new features, or fix bugs:
+
+1. Fork the project
+2. Create a new branch (`git checkout -b feature-name`)
+3. Commit your changes (`git commit -m "Add new feature"`)
+4. Push the branch (`git push origin feature-name`)
+5. Open a pull request
+
+## License
+
+This project is open-source and available under the MIT License.
