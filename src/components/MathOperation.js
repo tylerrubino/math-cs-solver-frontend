@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FiInfo } from 'react-icons/fi';
 import { fetchMathData } from '../api/api';
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
 import './MathOperation.css';
 
 const MathOperation = ({ operation, paramFields }) => {
@@ -20,6 +22,8 @@ const MathOperation = ({ operation, paramFields }) => {
 		binomial: 'Calculates the binomial coefficient for given n and k values.',
 		exponent: 'Calculates the result of raising a number to a power.',
 		euler: 'Calculates Euler’s exponent for a given value.',
+		derivative:
+			'Calculates the derivative of a function with respect to a variable',
 	};
 
 	// Define required parameters for each operation
@@ -33,6 +37,7 @@ const MathOperation = ({ operation, paramFields }) => {
 		binomial: ['n', 'k'],
 		exponent: ['a', 'n'],
 		euler: ['n'],
+		derivative: ['function', 'variable'],
 	};
 
 	const requiredParams = operationParams[operation] || [];
@@ -48,22 +53,53 @@ const MathOperation = ({ operation, paramFields }) => {
 
 	// Fetch the result from the API
 	const handleFetch = async () => {
-		// Validate that all required params are present
-		const missingParams = requiredParams.filter((param) => !params[param]);
-		if (missingParams.length > 0) {
-			setError(`Please provide values for: ${missingParams.join(', ')}`);
-			setResult(null);
-			return;
-		}
-
 		try {
-			const data = await fetchMathData(operation, params);
-			setResult(data.result);
-			setError(null);
+			let data;
+
+			if (operation === 'derivative') {
+				// Make a POST request for the derivative calculation
+				const response = await fetch('http://localhost:5000/api/derivative/', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						function: params.function,
+						variable: params.variable,
+					}),
+				});
+				data = await response.json();
+			} else {
+				// Make a GET request for other calculations
+				data = await fetchMathData(operation, params);
+			}
+
+			console.log(data);
+
+			if (data.result) {
+				setResult(data.result);
+				setError(null);
+			} else {
+				setError(data.error || 'Error calculating result');
+			}
 		} catch (err) {
-			setError(err.message);
+			setError('Error connecting to API');
 			setResult(null);
 		}
+		// Validate that all required params are present
+		// const missingParams = requiredParams.filter((param) => !params[param]);
+		// if (missingParams.length > 0) {
+		// 	setError(`Please provide values for: ${missingParams.join(', ')}`);
+		// 	setResult(null);
+		// 	return;
+		// }
+
+		// try {
+		// 	const data = await fetchMathData(operation, params);
+		// 	setResult(data.result);
+		// 	setError(null);
+		// } catch (err) {
+		// 	setError(err.message);
+		// 	setResult(null);
+		// }
 	};
 
 	useEffect(() => {
@@ -93,7 +129,7 @@ const MathOperation = ({ operation, paramFields }) => {
 				<label key={param} className='input-label'>
 					{param}:
 					<input
-						type='number'
+						type='text'
 						name={param}
 						value={params[param] || ''}
 						onChange={handleInputChange}
@@ -107,7 +143,12 @@ const MathOperation = ({ operation, paramFields }) => {
 				Calculate
 			</button>
 
-			{result !== null && <p className='result'>Result: {result}</p>}
+			{result !== null && (
+				<div className='result'>
+					<p className='result'>Result: {result}</p>
+					<BlockMath math={result} />
+				</div>
+			)}
 			{error && <p className='error'>Error: {error}</p>}
 		</div>
 	);

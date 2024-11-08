@@ -9,6 +9,7 @@ import {
 	FiGrid,
 	FiArrowUpCircle,
 	FiFeather,
+	FiBarChart2,
 } from 'react-icons/fi';
 import './Sidebar.css';
 
@@ -23,6 +24,7 @@ const Sidebar = ({ selectedOperation, onSelectOperation }) => {
 		{ id: 'binomial', label: 'Binomial Coefficient', icon: <FiGrid /> },
 		{ id: 'exponent', label: 'Exponent', icon: <FiArrowUpCircle /> },
 		{ id: 'euler', label: 'Euler Exponent', icon: <FiFeather /> },
+		{ id: 'derivative', label: 'Derivative', icon: <FiBarChart2 /> },
 	];
 
 	return (
